@@ -1,0 +1,65 @@
+Mravi
+//
+//  main.cpp
+//  Kattis
+//
+//  Created by Zimu Wang on 10/17/15.
+//  Copyright (c) 2015 Zimu Wang. All rights reserved.
+//
+
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+#include <list>
+#include <deque>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+    int number;
+    vector< vector< pair<int, int> > > array;
+    vector< pair <double, int> > nodes;
+    cin>> number;
+    int parent,child,capacity,T;
+    array.resize(number+1);
+    nodes.resize(number+1);
+    int value;
+    for (int i=0;i<number-1;i++)
+    {
+        cin>>parent>>child>>capacity>>T;
+        array[parent].push_back({child,capacity});
+        nodes[child].second = T;
+    };
+    for (int i=0;i<number;i++)
+    {
+        cin>>value;
+        nodes[i+1].first =(double)value;
+    };
+    for (int i=number;i>=1;i--)
+    {
+        if (nodes[i].first!=-1)
+        {if (nodes[i].second==1)
+            nodes[i].first = sqrt(nodes[i].first);}
+        else
+        {
+            double maxi=0;
+            for (int j=0;j<array[i].size();j++)
+                maxi=max(maxi,nodes[array[i][j].first].first/array[i][j].second*100);
+            nodes[i].first=maxi;
+            if (nodes[i].second==1)
+                nodes[i].first=sqrt(maxi);
+        };
+    };
+    cout<<setprecision(3)<<setiosflags(ios::fixed)<<nodes[1].first;
+    return 0;
+}
+
