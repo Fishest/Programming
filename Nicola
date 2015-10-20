@@ -1,0 +1,72 @@
+//
+//  main.cpp
+//  Kattis
+//
+//  Created by Zimu Wang on 10/17/15.
+//  Copyright (c) 2015 Zimu Wang. All rights reserved.
+//
+
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+#include <list>
+#include <deque>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+int compute(int slot,int step, vector<int> &array)
+{
+    int sum1=INFINITY;
+    int sum2=INFINITY;
+    if (slot+step+1==array.size()-1)
+        return array[slot+step+1]+array[slot];
+    if (slot+step+1<array.size())
+        sum1=compute(slot+step+1,step+1,array);
+    if (slot-step>0 && slot!=1)
+        sum2=compute(slot-step,step,array);
+    
+    cout<<slot<<" "<<step<<" "<<min(sum1,sum2)+array[slot]<<endl;
+    return min(sum1,sum2)+array[slot];
+    
+};
+
+int main()
+{
+    int number;
+    vector<int> array;
+    cin>>number;
+    array.resize(number+1);
+    for (int i=1;i<=number;i++)
+        cin>>array[i];
+    int DP[number+1][number+1];
+    memset(DP,INFINITY,sizeof(DP));
+    for (int j=number-1;j>=0;j--)
+        for (int i=1;i<=number;i++)
+        {
+            int sum1=INFINITY;
+            int sum2=INFINITY;
+            if (i+j+1==array.size()-1)
+                DP[i][j] = array[i+j+1]+array[i];
+            else
+            {if (i+j+1<array.size())
+                sum1=DP[i+j+1][j+1];
+            if (i-j>0 && i!=1)
+                sum2=DP[i-j][j];
+                DP[i][j]=min(sum1,sum2)+array[i];
+            };
+        };
+    cout<<DP[1][0]-array[1]<<endl;
+    
+    
+    
+}
+
+
+
