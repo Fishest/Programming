@@ -1,0 +1,73 @@
+Cow Crane
+
+//
+//  main.cpp
+//  Kattis
+//
+//  Created by Zimu Wang on 10/17/15.
+//  Copyright (c) 2015 Zimu Wang. All rights reserved.
+//
+
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+#include <list>
+#include <deque>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
+
+
+using namespace std;
+
+int main()
+{
+    long m,n;
+    long l,r;
+    long t1,t2;
+    cin>>m>>n>>l>>r>>t1>>t2;
+    long time = 0;
+    bool answer1;
+    bool answer2;
+    bool answer3;
+    answer1=true;
+    answer2=true;
+    answer3=false;
+    time += abs(m);
+    time += abs(l-m);
+    if (time>t1)
+        answer1=false;
+    time += abs(l-n);
+    time += abs(n-r);
+    if (time>t2)
+        answer1=false;
+    time =0;
+    time += abs(n);
+    time += abs(r-n);
+    if (time>t2)
+        answer2=false;
+    time += abs(r-m);
+    time += abs(m-l);
+    if (time>t2)
+        answer2=false;
+    
+        if (m<=n<=l<=r || m>=n>=l>=r)
+            if (abs(m)+abs(r-m)<=t2 && abs(m)+abs(r-m)+abs(r-n)+abs(l-n)<=t1)
+                answer3=true;
+        if (n<=m<=r<=l || n>=m>=r>=l)
+            if (abs(n)+abs(l-n)<=t1 && abs(n)+abs(l-n)+abs(l-m)+abs(r-m)<=t2)
+                answer3=true;
+    
+    
+    
+    
+    if (answer1 || answer2 || answer3)
+        cout<<"possible";
+    else
+        cout<<"impossible";
+    return 0;
+}
